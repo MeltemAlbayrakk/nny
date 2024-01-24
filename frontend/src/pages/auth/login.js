@@ -184,7 +184,7 @@ function Login(props) {
             </Container >
             <Container style={{display:"flex", marginTop:"10px",marginLeft:"23%"}}>
                <h5  style={{  display:"flex",fontFamily:"Lora",color:"white", margin:"30px",width:"150px"}}>
-         HESABIN YOK MU?
+            HESABIN YOK MU?
           </h5>
             <Button style={{color:"white", backgroundColor:"#EE7C22", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",height:"40px",width:"20%"}}>KAYIT OL</Button>
             </Container>
