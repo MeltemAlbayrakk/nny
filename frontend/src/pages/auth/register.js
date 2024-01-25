@@ -17,17 +17,34 @@ import Button from '@mui/material/Button';
 import { Container, Select } from '@mui/material';
 import backgroundImage from "../../images/loginBackground.jpg"
 import logo from "../../images/logo.png"
-
+import { useNavigate } from "react-router-dom";
+import api from '../services/auth.js';
 
 const drawerWidth = 240;
 const navItems = [ 'GİRİŞ YAP', 'KAYIT OL'];
 
 function Register(props) {
+  const navigate = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [activeTab,setActiveTab] = React.useState(true);
+
  const [email,setEmail] = React.useState("")
+ const [name,setName] = React.useState("")
+ const [surName,setSurName] = React.useState("")
+ const [phone,setPhone] = React.useState("")
+ const [companyName,setCompanyName] = React.useState("")
  const [password,setPassword] = React.useState("")
+ const [passwordConfirmation,setPasswordConfirmation] = React.useState("")
+ const [form, setForm] = React.useState({
+  name: "",
+  surName: "",
+  companyName: "",
+  email: "",
+  phone: "",
+  password: "",
+  passwordConfirmation: "",
+});
 
   const backgroundImageUrl = backgroundImage;
 
@@ -41,7 +58,7 @@ function Register(props) {
 
     justifyContent:"center",
     display:"flex",
-    height:"760px",
+    height:activeTab ?"680px": "760px",
     width:"80%",
     borderRadius:"10px",
     backgroundColor:"#474954",
@@ -97,6 +114,71 @@ function Register(props) {
         setActiveTab(false);
     }
   
+    const corporateRegister = async()=>{
+
+      try {
+        console.log("bu gelen form: ",form)
+        const response = await api.v1.auth.register("corporate",form)
+    
+        if(response.status===409){
+        alert(response.data.message)
+      }else{
+       if (response.message) {
+        alert(response.message);
+       }else{
+          alert("Unexpected response from server")
+       }
+      }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 409) {
+            alert(error.response.data.message);
+          } else if (error.response.status===400) { 
+            alert(error.response.data.message);
+          }else{     
+            alert("Server error. Please try again later.");
+          }
+        } else if (error.request) {
+          alert("No response from server. Please try again later.");
+        } else {
+          alert("Request failed. Please check your internet connection and try again.");
+        }
+      }
+      
+    }
+
+    const individualRegister = async()=>{
+      try {
+        console.log("bu gelen form: ",form)
+          const response = await api.v1.auth.register("individual",form)
+        
+          if(response.status===409){
+            alert(response.data.message)
+          }else{
+           if (response.message) {
+            alert(response.message);
+           }else{
+              alert("Unexpected response from server")
+           }
+          
+          }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 409) {
+            alert(error.response.data.message);
+          } else if (error.response.status===400) { 
+            alert(error.response.data.message);
+          }else{     
+            alert("Server error. Please try again later.");
+          }
+        } else if (error.request) {
+          alert("No response from server. Please try again later.");
+        } else {
+          alert("Request failed. Please check your internet connection and try again.");
+        }
+      }
+     
+    }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -160,19 +242,19 @@ function Register(props) {
             Merhaba! Türkiye'nin zengin mutfağını keşfetmeye ne dersin? Kayıt olarak, şehirlerin yöresel lezzetlerini keşfedebilir, restoranları tanıyabilirsin. Aramıza katılmak için hemen kayıt ol, lezzetli bir yolculuğa başla!
             </Typography >
 
-                <Container style={{backgroundColor:"#626470", width:"70%", height:"450px",borderRadius:"8px"}}>
+                <Container style={{backgroundColor:"#626470", width:"70%",height: activeTab ? "380px":"450px",borderRadius:"8px"}}>
 
                 <Container style={{marginLeft:"50px",display:"flex"}}>
-                    <Button onClick={handleActiveTabTrue} style={{color:"white", backgroundColor:"#d46c19", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",height:"40px",width:"40%"}}>
+                    <Button onClick={handleActiveTabTrue} style={{  backgroundColor: activeTab ? '#8c460e' : "#d46c19" , color:"white",  border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",height:"40px",width:"40%"}}>
                         KİŞİSEL
                     </Button>
                     
-                    <Button onClick={handleActiveTabFalse} style={{color:"white", backgroundColor:"#d46c19", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",marginLeft:"5px",height:"40px",width:"40%"}}>
+                    <Button onClick={handleActiveTabFalse} style={{color:"white", backgroundColor: activeTab ? '#d46c19' : "#8c460e", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",marginLeft:"5px",height:"40px",width:"40%"}}>
                         KURUMSAL
                     </Button>
                 </Container>
 
-                <Container style={{display:"flex",backgroundColor:"#626470",height:"80px"}}>
+            <Container style={{display:"flex",backgroundColor:"#626470",height:"80px"}}>
               <label
               style={{marginRight:"10px",paddingTop:"25px",fontFamily:"Lora",color:"white"}}
               >
@@ -183,7 +265,7 @@ function Register(props) {
                 type="isim"
                 placeholder="İsim giriniz.."
                 backgroundColor="white"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setForm({...form,name:e.target.value})}
               />
                  <label
                 style={{marginRight:"10px",paddingTop:"25px",fontFamily:"Lora",color:"white"}}
@@ -195,7 +277,7 @@ function Register(props) {
                 type="soyisim"
                 placeholder="Soyisim giriniz.."
                 backgroundColor="white"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setForm({...form,surName:e.target.value})}
               />
             </Container>
 
@@ -209,7 +291,7 @@ function Register(props) {
                 style={{ marginLeft:"10px",marginTop:"15px",marginRight:"10px",width:"80%",backgroundColor:"white",border:"None",borderRadius:"5px",height:"50%"}}
                 placeholder="E-mail giriniz.."
                 backgroundColor="white"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setForm({...form,email:e.target.value})}
               />
                  <label
               style={{marginRight:"10px",paddingTop:"25px",fontFamily:"Lora",color:"white"}}
@@ -221,10 +303,11 @@ function Register(props) {
                 type="telefon"
                 placeholder="Telefon giriniz.."
                 backgroundColor="white"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setForm({...form,phone:e.target.value})}
               />
             </Container>
 
+            {activeTab ===false && (
             <Container style={{display:"flex",backgroundColor:"#626470",height:"80px"}}>
               <label
               style={{paddingTop:"28px",marginRight:"10px",fontFamily:"Lora",color:"white"}}
@@ -234,9 +317,10 @@ function Register(props) {
                 type="sirketisim"
                 placeholder="Şirket ismi giriniz.."
                 backgroundColor="white"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setForm({...form,companyName:e.target.value})}
               />
             </Container>
+            )}
 
             <Container style={{display:"flex",backgroundColor:"#626470",height:"80px"}}>
               <label
@@ -249,7 +333,7 @@ function Register(props) {
                 type="password"
                 placeholder="Şifre giriniz.."
                 backgroundColor="white"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setForm({...form,password:e.target.value})}
               />
                  <label
               style={{marginRight:"10px",marginLeft:"10px",paddingTop:"15px",fontFamily:"Lora",color:"white"}}
@@ -258,21 +342,21 @@ function Register(props) {
               </label>
               <input
                 style={{ marginLeft:"10px",width:"80%",margin:"auto",backgroundColor:"white",border:"None",borderRadius:"5px",height:"50%"}}
-                type="telefon"
+                type="password"
                 placeholder="Şifre giriniz.."
                 backgroundColor="white"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setForm({...form,passwordConfirmation:e.target.value})}
               />
             </Container>
 
-            <Button style={{marginLeft:"15%",marginTop:"10px",color:"white", backgroundColor:"#d46c19", border:"None",borderRadius:"30px",fontFamily:"Lora",height:"50px",width:"70%"}}>KAYIT OL</Button>
+            <Button onClick={activeTab ? individualRegister :corporateRegister } style={{marginLeft:"15%",marginTop:"10px",color:"white", backgroundColor:"#d46c19", border:"None",borderRadius:"30px",fontFamily:"Lora",height:"50px",width:"70%"}}>KAYIT OL</Button>
 
 
             <Container style={{display:"flex", marginTop:"10px",marginLeft:"15%"}}>
                <h5  style={{  display:"flex",fontFamily:"Lora",color:"white", margin:"30px",width:"150px"}}>
          HESABIN VAR MI?
           </h5>
-            <Button style={{color:"white", backgroundColor:"#EE7C22", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",height:"40px",width:"20%"}}>gİRİŞ YAP</Button>
+            <Button style={{color:"white", backgroundColor:"#d46c19", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",height:"40px",width:"20%"}}>GİRİŞ YAP</Button>
             </Container>
            
 

@@ -155,22 +155,8 @@ const [cityOptions,setCityOptions] = React.useState([])
 
   };
 
-  const nagivatorStyle ={
-    textAlign:"center",
-    marginTop:"13%",
-    color: 'white',
-    fontSize:"20px",
-    margin:"auto"
-  };
 
-  const searchbarSytyle ={
-    margin:"auto",
-   display:"flex",
-   
-    width:"20%",
-    height:"15%",
-    textAlign:"center"
-  };
+
 
 const buttonsStyle ={
   margin:"auto",
@@ -180,20 +166,7 @@ const buttonsStyle ={
    justifyContent:"center",
    textAlign:"center"
 };
-  const foodInputStyle ={
-    backgroundColor: "white",
-   
-    display:"flex",
-    margin:"auto",
-    borderRadius:"2px",
-    border:"None",
-    height:"40px",
-    
-    marginRight:"10px",
-    justifyContent:"center",
-    textAlign:"center"
 
-  };
 
   const handleCityChange =(selectedCity)=>{
     setSelectedCity(selectedCity);
@@ -307,51 +280,42 @@ const buttonsStyle ={
          </Box>
           {/* İsterseniz başka yazılar ekleyebilirsiniz */}
         </Container>
+
         <Container>
-          <Typography variant="h6" fontFamily="Arial" style={nagivatorStyle}>
+          <Typography variant="h6" fontFamily="Lora" style={{  textAlign:"center",marginTop:"150px",color: 'white',fontSize:"25px",margin:"auto"}}>
             Türk mutfağının nefis dünyasında birlikte keşfe çıkalım. Afiyet olsun!
           </Typography>
         </Container>
-        <Container style={searchbarSytyle}>
+        <Container style={{display:"flex", width:"20%",height:"15%",textAlign:"center"}}>
           
-        <Input 
-          style={foodInputStyle}
-          type="input"
-          placeholder='Yemek Arayın..'
-          // onChange={(e) =>onChange()}
-          />
-          {/* <button type="submit">Search</button> */}
+            <input
+              style={{ marginTop:"20px",width:"200px",marginLeft:"10px",backgroundColor:"white",border:"None",borderRadius:"5px",height:"45px"}}
+              type="sirketisim"
+              placeholder="Yemek Arayın.."
+              backgroundColor="white"
+              
+            />
+         
           <Select 
-      
-          id="demo-simple-select"
           //value={citiesOptions}
           options={citiesOptions}
           getOptionLabel={(x) => x.label}
           getOptionValue={(x) => x.value}
           placeholder="Şehir Arayın.."
-          style={{ margin:"auto",height:"40px",width:"30%",backgroundColor:"white"}}
-          onChange={handleCityChange}
-         
-           
+          unstyled
+          style={{ marginTop:"20px",height:"45px",width:"30%",backgroundColor:"white"}}
+          onChange={handleCityChange}      
           />
-         
-          {/* <button type="submit">Search</button> */}
-        
+   
         </Container>
         <Container style={buttonsStyle}>
-         <button 
-         style={{border:"None",borderRadius:"4px",width:"60px", color:"white", backgroundColor:"gray",marginRight:"5px"}}
-         type="submit"
-         onClick={searchFood}
-         >
-          Ara
-          </button>
-         <button 
-         style={{border:"None",borderRadius:"4px",width:"60px", color:"white", backgroundColor:"gray",marginRight:"5px"}} type="submit"
-         onClick={searchCity}
-         >
-          Ara
-          </button>
+                 <Button  style={{  backgroundColor:  "#d46c19" , color:"white",  border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",height:"40px",width:"15%"}}>
+                        YEMEK ARA
+                    </Button>
+                    
+                    <Button  style={{color:"white", backgroundColor:"#d46c19", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",marginLeft:"5px",height:"40px",width:"15%"}}>
+                        ŞEHİR ARA
+                    </Button>
         </Container>
       </Box>
     </Box>
