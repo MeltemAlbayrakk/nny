@@ -9,13 +9,13 @@ const login= async(req,res)=>{
         const user= await UserModel.findOne({email:email});
 
         if(!user){
-            return res.status(404).json({ message: 'User not found' });   
+            return res.status(404).json({ message: 'E-mail or password is incorrect' });   
         }
 
         const passwordMatch = await bcrypt.compare(password,user.password);
         
         if (!passwordMatch) {
-            return res.status(401).json({ message: 'E-mail or password is incorrect' });
+            return res.status(402).json({ message: 'E-mail or password is incorrect' });
         }else{
             const token = jwt.sign({userId:user._id,name:user.name,surName:user.surName},process.env.SECRET_KEY,{expiresIn:'1h'})
         }

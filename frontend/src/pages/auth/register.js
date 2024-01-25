@@ -17,7 +17,7 @@ import Button from '@mui/material/Button';
 import { Container, Select } from '@mui/material';
 import backgroundImage from "../../images/loginBackground.jpg"
 import logo from "../../images/logo.png"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from '../services/auth.js';
 
 const drawerWidth = 240;
@@ -178,6 +178,11 @@ function Register(props) {
         }
       }
      
+    }
+
+
+    const goLogin =()=>{
+        navigate("/login")
     }
 
   return (
@@ -356,7 +361,11 @@ function Register(props) {
                <h5  style={{  display:"flex",fontFamily:"Lora",color:"white", margin:"30px",width:"150px"}}>
          HESABIN VAR MI?
           </h5>
-            <Button style={{color:"white", backgroundColor:"#d46c19", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",height:"40px",width:"20%"}}>GİRİŞ YAP</Button>
+ 
+              <Button onClick={goLogin} style={{color:"white", backgroundColor:"#d46c19", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",height:"40px",width:"20%"}}>
+              GİRİŞ YAP
+            </Button>
+          
             </Container>
            
 

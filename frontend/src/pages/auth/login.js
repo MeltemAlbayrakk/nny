@@ -17,12 +17,15 @@ import Button from '@mui/material/Button';
 import { Container, Select } from '@mui/material';
 import backgroundImage from "../../images/loginBackground.jpg"
 import logo from "../../images/logo.png"
+import api from '../services/auth.js'
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const drawerWidth = 240;
 const navItems = [ 'GİRİŞ YAP', 'KAYIT OL'];
 
 function Login(props) {
+  const navigate = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
  const [email,setEmail] = React.useState("")
@@ -88,8 +91,47 @@ function Login(props) {
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
+const login= async()=>{
+  try {
+     const response= await api.v1.auth.login(email,password);
+     if(response.success){
+      
+      const userToken = response.token;
+      console.log("resp succes ici",);
 
-  
+      localStorage.setItem('userToken',userToken)
+      const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000; 
+      localStorage.setItem('tokenExpiration', expirationTime);
+      
+
+  }else{
+      if (response.message){
+        alert(response.message);  
+      }else{
+      alert("Unexpected response from server")
+  }}
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 404) {
+        alert(error.response.data.message);
+      } else if (error.response.status===402) { 
+        alert(error.response.data.message);
+      }else{     
+        alert("Server error. Please try again later.");
+      }
+    } else if (error.request) {
+      alert("No response from server. Please try again later.");
+    } else {
+      alert("Request failed. Please check your internet connection and try again.");
+    }
+  }
+ 
+
+
+}
+  const goRegister =()=>{
+    navigate("/register")
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -179,14 +221,18 @@ function Login(props) {
             />
             </Container>
 
-            <Button style={{marginLeft:"15%",marginTop:"20px",color:"white", backgroundColor:"#EE7C22", border:"None",borderRadius:"30px",fontFamily:"Lora",height:"50px",width:"70%"}}>GİRİŞ YAP</Button>
+            <Button onClick={login} style={{marginLeft:"15%",marginTop:"20px",color:"white", backgroundColor:"#EE7C22", border:"None",borderRadius:"30px",fontFamily:"Lora",height:"50px",width:"70%"}}>GİRİŞ YAP</Button>
 
             </Container >
             <Container style={{display:"flex", marginTop:"10px",marginLeft:"23%"}}>
                <h5  style={{  display:"flex",fontFamily:"Lora",color:"white", margin:"30px",width:"150px"}}>
-            HESABIN YOK MU?
-          </h5>
-            <Button style={{color:"white", backgroundColor:"#EE7C22", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",height:"40px",width:"20%"}}>KAYIT OL</Button>
+              HESABIN YOK MU?
+              </h5>
+ 
+            <Button onClick={goRegister} style={{color:"white", backgroundColor:"#EE7C22", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",height:"40px",width:"20%"}}>
+              KAYIT OL
+              </Button>
+           
             </Container>
            
           </Container>
