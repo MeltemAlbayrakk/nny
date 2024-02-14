@@ -14,11 +14,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Container, Input, Select } from '@mui/material';
+import { Container, Input} from '@mui/material';
 import backgroundImage from "../../images/homepageBackground.jpg"
 import logo from "../../images/logo.png"
 import {Link} from 'react-router-dom';
-
+import Select from 'react-select';
 
 
 const drawerWidth = 240;
@@ -159,7 +159,7 @@ const [cityOptions,setCityOptions] = React.useState([])
 
 
 const buttonsStyle ={
-  margin:"auto",
+ marginTop:"10px",
    display:"flex",
 
    height:"8%",
@@ -167,9 +167,20 @@ const buttonsStyle ={
    textAlign:"center"
 };
 
+const SelectStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: 'white',
+    marginLeft:"10px",
+    width:"250px",
+    marginTop:"20px",
+    height: '45px',
+  }),
+};
 
   const handleCityChange =(selectedCity)=>{
     setSelectedCity(selectedCity);
+    
   }
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -181,6 +192,10 @@ const buttonsStyle ={
   }
   const searchCity =async ()=>{
 
+  }
+
+  const FoodDetails = async()=>{
+    
   }
 
   const drawer = (
@@ -282,14 +297,14 @@ const buttonsStyle ={
         </Container>
 
         <Container>
-          <Typography variant="h6" fontFamily="Lora" style={{  textAlign:"center",marginTop:"150px",color: 'white',fontSize:"25px",margin:"auto"}}>
+          <Typography variant="h6" fontFamily="Lora" style={{  textAlign:"center",marginTop:"150px",color: 'white',fontSize:"25px"}}>
             Türk mutfağının nefis dünyasında birlikte keşfe çıkalım. Afiyet olsun!
           </Typography>
         </Container>
-        <Container style={{display:"flex", width:"20%",height:"15%",textAlign:"center"}}>
+        <Container style={{display:"flex",justifyContent:"center",textAlign:"center",marginTop:"50px"}}>
           
             <input
-              style={{ marginTop:"20px",width:"200px",marginLeft:"10px",backgroundColor:"white",border:"None",borderRadius:"5px",height:"45px"}}
+              style={{ fontSize:"16px",textAlign: "center",marginTop:"20px",width:"250px",backgroundColor:"white",border:"None",borderRadius:"5px",height:"45px"}}
               type="sirketisim"
               placeholder="Yemek Arayın.."
               backgroundColor="white"
@@ -297,23 +312,23 @@ const buttonsStyle ={
             />
          
           <Select 
-          //value={citiesOptions}
+         
           options={citiesOptions}
           getOptionLabel={(x) => x.label}
           getOptionValue={(x) => x.value}
           placeholder="Şehir Arayın.."
-          unstyled
-          style={{ marginTop:"20px",height:"45px",width:"30%",backgroundColor:"white"}}
+          styles={SelectStyles}
           onChange={handleCityChange}      
           />
-   
+           
+          
         </Container>
         <Container style={buttonsStyle}>
                  <Button  style={{  backgroundColor:  "#d46c19" , color:"white",  border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",height:"40px",width:"15%"}}>
                         YEMEK ARA
                     </Button>
                     
-                    <Button  style={{color:"white", backgroundColor:"#d46c19", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",marginLeft:"5px",height:"40px",width:"15%"}}>
+                    <Button  onClick={FoodDetails} style={{color:"white", backgroundColor:"#d46c19", border:"None",borderRadius:"30px",fontFamily:"Lora",marginTop:"20px",marginLeft:"5px",height:"40px",width:"15%"}}>
                         ŞEHİR ARA
                     </Button>
         </Container>
